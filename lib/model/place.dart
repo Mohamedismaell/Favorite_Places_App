@@ -5,5 +5,7 @@ const uuid = Uuid();
 class Place {
   final String id;
   final String title;
-  Place({required this.title}) : id = uuid.v4();
+  final dynamic image;
+  Place({required this.title, required this.image})
+    : id = uuid.v4();
 }

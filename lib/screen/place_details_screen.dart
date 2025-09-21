@@ -22,7 +22,14 @@ class PlaceDetailsScreen extends StatelessWidget {
               ),
         ),
       ),
-      body: Center(child: Text(place.title)),
+      body: Center(
+        child: Image.file(
+          place.image,
+          fit: BoxFit.cover,
+          width: double.infinity,
+          height: double.infinity,
+        ),
+      ),
     );
   }
 }
