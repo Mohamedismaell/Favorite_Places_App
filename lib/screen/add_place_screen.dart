@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:favorite_places/model/place.dart';
 import 'package:favorite_places/provider/user_places.dart';
 import 'package:favorite_places/widget/image_input.dart';
 import 'package:favorite_places/widget/location_input.dart';
@@ -17,19 +18,28 @@ class AddPlaceScreen extends ConsumerStatefulWidget {
 class _AddPlaceScreenState
     extends ConsumerState<AddPlaceScreen> {
   final _formKey = GlobalKey<FormState>();
-  File? _pickedImage;
+  File _pickedImage = File('assets/image/noimage.png');
   final _titleController = TextEditingController();
+  PlaceLocation? _pickedLocation;
   @override
   void dispose() {
     _titleController.dispose();
     super.dispose();
   }
 
+  void _setLocation(PlaceLocation location) {
+    _pickedLocation = location;
+  }
+
   void _savePlace() {
     if (_formKey.currentState!.validate()) {
       ref
           .read(userPlacesProvider.notifier)
-          .addPlace(_titleController.text, _pickedImage!);
+          .addPlace(
+            _titleController.text,
+            _pickedImage,
+            _pickedLocation!,
+          );
       _titleController.clear();
       Navigator.of(context).pop();
     }
@@ -37,7 +47,6 @@ class _AddPlaceScreenState
 
   @override
   Widget build(BuildContext context) {
-    // final TextEditingController titleController = TextEditingController();
     return Scaffold(
       appBar: AppBar(title: const Text('Add a New Place')),
       body: Padding(
@@ -91,7 +100,7 @@ class _AddPlaceScreenState
                 },
               ),
               SizedBox(height: 16),
-              LocationInput(),
+              LocationInput(onSelectLocation: _setLocation),
               SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () {
@@ -101,7 +110,7 @@ class _AddPlaceScreenState
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     const Icon(Icons.add),
-                    const Text('Add Place'),
+                    const Text('Add The Place'),
                   ],
                 ),
               ),

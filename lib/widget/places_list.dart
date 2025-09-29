@@ -48,6 +48,20 @@ class PlacesList extends StatelessWidget {
                     ).colorScheme.onSurface,
                   ),
             ),
+            subtitle: Text(
+              places[index].location.address ??
+                  'No address available',
+              style: Theme.of(context).textTheme.titleSmall!
+                  .copyWith(
+                    color:
+                        Theme.of(
+                          context,
+                          // ignore: deprecated_member_use
+                        ).colorScheme.onSurface.withOpacity(
+                          0.7,
+                        ),
+                  ),
+            ),
             onTap: () {
               Navigator.of(context).push(
                 MaterialPageRoute(

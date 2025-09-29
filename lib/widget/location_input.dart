@@ -1,9 +1,22 @@
-import 'package:favorite_places/screen/map_screen.dart';
+import 'dart:convert';
+import 'dart:async'; // + timeout/async errors
+import 'dart:io';
+
+import 'package:favorite_places/model/place.dart';
+import 'package:favorite_places/screen/mapbox_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:location/location.dart';
+import 'package:http/http.dart' as http;
 
 class LocationInput extends StatefulWidget {
-  const LocationInput({super.key});
+  const LocationInput({
+    super.key,
+    required this.onSelectLocation,
+  });
+
+  final void Function(PlaceLocation location)
+  onSelectLocation;
 
   @override
   State<LocationInput> createState() =>
@@ -11,67 +24,126 @@ class LocationInput extends StatefulWidget {
 }
 
 class _LocationInputState extends State<LocationInput> {
+  PlaceLocation? _pickedLocation;
   bool isGettingLocation = false;
-  double? _lat;
-  double? _lng;
-  void generateLocation() async {
-    Location location = Location();
+  bool _isResolvingAddress = false;
 
-    bool serviceEnabled;
-    PermissionStatus permissionGranted;
-    LocationData locationData;
-    serviceEnabled = await location.serviceEnabled();
+  Future<bool> _ensurePermissions() async {
+    final location = Location();
+    var serviceEnabled = await location.serviceEnabled();
     if (!serviceEnabled) {
       serviceEnabled = await location.requestService();
-      if (!serviceEnabled) {
-        return;
+      if (!serviceEnabled) return false;
+    }
+    var permission = await location.hasPermission();
+    if (permission == PermissionStatus.denied) {
+      permission = await location.requestPermission();
+      if (permission != PermissionStatus.granted) {
+        return false;
       }
     }
+    return true;
+  }
 
-    permissionGranted = await location.hasPermission();
-    if (permissionGranted == PermissionStatus.denied) {
-      permissionGranted = await location
-          .requestPermission();
-      if (permissionGranted != PermissionStatus.granted) {
-        return;
+  Future<String?> _reverseGeocode(
+    double lat,
+    double lng,
+  ) async {
+    final token = dotenv.env['MAPBOX_ACCESS_TOKEN'];
+    if (token == null || token.isEmpty) return null;
+
+    final url = Uri.parse(
+      'https://api.mapbox.com/geocoding/v5/mapbox.places/$lng,$lat.json'
+      '?access_token=$token&limit=1',
+    );
+
+    try {
+      final response = await http
+          .get(url)
+          .timeout(const Duration(seconds: 8)); // TIMEOUT
+      if (response.statusCode != 200) return null;
+
+      final resData = jsonDecode(response.body);
+      final features = resData['features'];
+      if (features is List && features.isNotEmpty) {
+        return features[0]['place_name'] as String?;
       }
+      return null;
+    } on TimeoutException {
+      return null;
+    } on SocketException {
+      return null;
+    } catch (_) {
+      return null;
     }
-    setState(() {
-      isGettingLocation = true;
-    });
-    locationData = await location.getLocation();
-    setState(() {
-      isGettingLocation = false;
-      _lat = locationData.latitude;
-      _lng = locationData.longitude;
-    });
+  }
 
-    // Now _lat and _lng are set, so open the map screen
-    if (_lat != null && _lng != null) {
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (ctx) =>
-              MapScreen(lat: _lat!, lng: _lng!),
-        ),
-      );
-    }
+  Future<void> generateLocation() async {
+    final ok = await _ensurePermissions();
+    if (!ok) return;
+
+    setState(() => isGettingLocation = true);
+    final locationData = await Location().getLocation();
+
+    if (!mounted) return;
+    setState(() => isGettingLocation = false);
+
+    final pickedLocation = await Navigator.of(context)
+        .push<PlaceLocation>(
+          MaterialPageRoute(
+            builder: (ctx) => MapboxScreen(
+              lat: locationData.latitude!,
+              lng: locationData.longitude!,
+            ),
+          ),
+        );
+
+    if (!mounted || pickedLocation == null) return;
+
+    // Show small spinner while resolving address, but don't block UI
+    setState(() => _isResolvingAddress = true);
+    final finalAddress = await _reverseGeocode(
+      pickedLocation.lat,
+      pickedLocation.lng,
+    );
+    if (!mounted) return;
+    setState(() => _isResolvingAddress = false);
+
+    final result = PlaceLocation(
+      lat: pickedLocation.lat,
+      lng: pickedLocation.lng,
+      address: finalAddress,
+    );
+
+    setState(() => _pickedLocation = result);
+    // Call callback OUTSIDE setState to avoid rebuild-on-dispose issues
+    widget.onSelectLocation(result);
   }
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     Widget content = TextButton.icon(
-      onPressed: () => generateLocation(),
-      label: Text(
-        'No Location Chosen',
-        style: Theme.of(context).textTheme.titleLarge!
-            .copyWith(
-              color: Theme.of(
-                context,
-              ).colorScheme.onSurface,
-            ),
-      ),
+      onPressed: generateLocation,
       icon: const Icon(Icons.location_city, size: 30),
+      label: Text(
+        _pickedLocation == null
+            ? 'No Location Chosen'
+            : 'Lat: ${_pickedLocation!.lat.toStringAsFixed(5)}, '
+                  'Lng: ${_pickedLocation!.lng.toStringAsFixed(5)}'
+                  '${_pickedLocation!.address != null ? '\n${_pickedLocation!.address}' : ''}',
+        style: theme.textTheme.titleLarge!.copyWith(
+          color: theme.colorScheme.onSurface,
+        ),
+      ),
     );
+
+    if (isGettingLocation || _isResolvingAddress) {
+      content = const Center(
+        child: CircularProgressIndicator(),
+      );
+    }
 
     return Column(
       children: [
@@ -84,13 +156,7 @@ class _LocationInputState extends State<LocationInput> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ElevatedButton.icon(
-              onPressed: () => generateLocation(),
-              icon: const Icon(Icons.location_on),
-              label: const Text('Current Location'),
-            ),
-            const SizedBox(width: 10),
-            ElevatedButton.icon(
-              onPressed: () => generateLocation(),
+              onPressed: generateLocation,
               icon: const Icon(Icons.map),
               label: const Text('Select on Map'),
             ),

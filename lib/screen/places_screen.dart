@@ -1,5 +1,6 @@
 import 'package:favorite_places/provider/user_places.dart';
 import 'package:favorite_places/screen/add_place_screen.dart';
+import 'package:favorite_places/screen/mapbox_screen.dart';
 import 'package:favorite_places/widget/places_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

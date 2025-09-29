@@ -1,8 +1,10 @@
 import 'package:favorite_places/screen/places_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart';
 
 final colorScheme = ColorScheme.fromSeed(
   brightness: Brightness.dark,
@@ -27,8 +29,17 @@ final theme = ThemeData().copyWith(
       ),
 );
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized(); // <-- FIXED: Ensure Flutter binding is initialized
+  await setup();
   runApp(const ProviderScope(child: MyApp()));
+}
+
+Future<void> setup() async {
+  await dotenv.load(fileName: ".env");
+  MapboxOptions.setAccessToken(
+    dotenv.env['MAPBOX_ACCESS_TOKEN']!,
+  );
 }
 
 class MyApp extends StatelessWidget {
