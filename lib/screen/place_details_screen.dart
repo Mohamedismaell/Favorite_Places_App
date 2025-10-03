@@ -1,6 +1,5 @@
 import 'package:favorite_places/model/place.dart';
 import 'package:flutter/material.dart';
-import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart';
 
 class PlaceDetailsScreen extends StatelessWidget {
   const PlaceDetailsScreen({
@@ -45,7 +44,9 @@ class PlaceDetailsScreen extends StatelessWidget {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
+                    // ignore: deprecated_member_use
                     Colors.transparent.withOpacity(0.0),
+                    // ignore: deprecated_member_use
                     Colors.black.withOpacity(0.7),
                   ],
                 ),

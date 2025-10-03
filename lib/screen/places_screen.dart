@@ -1,6 +1,5 @@
 import 'package:favorite_places/provider/user_places.dart';
 import 'package:favorite_places/screen/add_place_screen.dart';
-import 'package:favorite_places/screen/mapbox_screen.dart';
 import 'package:favorite_places/widget/places_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,6 +19,16 @@ class PlacesListScreen extends ConsumerState<PlacesScreen> {
     );
   }
 
+  late Future<void> _placesFutuer;
+  @override
+  void initState() {
+    super.initState();
+
+    _placesFutuer = ref
+        .read(userPlacesProvider.notifier)
+        .loadPlaces();
+  }
+
   @override
   Widget build(BuildContext context) {
     final userPlaces = ref.watch(userPlacesProvider);
@@ -35,7 +44,14 @@ class PlacesListScreen extends ConsumerState<PlacesScreen> {
           ),
         ],
       ),
-      body: PlacesList(places: userPlaces),
+      body: FutureBuilder(
+        future: _placesFutuer,
+        builder: (context, snapshot) =>
+            snapshot.connectionState ==
+                ConnectionState.waiting
+            ? Center(child: CircularProgressIndicator())
+            : PlacesList(places: userPlaces),
+      ),
     );
   }
 }

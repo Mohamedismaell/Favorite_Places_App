@@ -120,6 +120,25 @@ class _LocationInputState extends State<LocationInput> {
     widget.onSelectLocation(result);
   }
 
+  Future<void> _currentLocation() async {
+    setState(() => _isResolvingAddress = true);
+    final locationData = await Location().getLocation();
+    final finalAddress = await _reverseGeocode(
+      locationData.latitude!,
+      locationData.longitude!,
+    );
+    if (!mounted) return;
+    setState(() => _isResolvingAddress = false);
+    final result = PlaceLocation(
+      lat: locationData.latitude!,
+      lng: locationData.longitude!,
+      address: finalAddress,
+    );
+    setState(() => _pickedLocation = result);
+    // Call callback OUTSIDE setState to avoid rebuild-on-dispose issues
+    widget.onSelectLocation(result);
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -159,6 +178,12 @@ class _LocationInputState extends State<LocationInput> {
               onPressed: generateLocation,
               icon: const Icon(Icons.map),
               label: const Text('Select on Map'),
+            ),
+            const SizedBox(width: 20),
+            ElevatedButton.icon(
+              onPressed: _currentLocation,
+              icon: const Icon(Icons.map),
+              label: const Text('Current Location'),
             ),
           ],
         ),

@@ -1,5 +1,3 @@
-// import 'dart:nativewrappers/_internal/vm/lib/ffi_native_type_patch.dart';
-
 import 'dart:async';
 import 'dart:typed_data';
 import 'package:favorite_places/model/place.dart';
@@ -9,6 +7,7 @@ import 'package:location/location.dart';
 import 'package:flutter/material.dart';
 import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart';
 
+// ignore: must_be_immutable
 class MapboxScreen extends StatefulWidget {
   MapboxScreen({
     super.key,

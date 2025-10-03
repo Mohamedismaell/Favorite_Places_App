@@ -1,5 +1,3 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:favorite_places/model/place.dart';
 import 'package:favorite_places/screen/mapbox_screen.dart';
 import 'package:flutter/material.dart';
