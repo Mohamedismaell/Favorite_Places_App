@@ -4,15 +4,6 @@ A modern, fast, and beautiful mobile application built with Flutter that allows 
 
 ---
 
-## 🎨 Design & UI
-
-This application features a custom-designed **Glassmorphism** interface:
-
-- **Modern Palette**: Clean Blue (`#4A90E2`) and White (`#FFFFFF`) color scheme.
-- **Glass Effects**: Custom `GlassContainer` components with background blur (`BackdropFilter`), semi-transparent overlays, and frosted borders.
-- **Micro-Interactions**: Smooth animations, hero transitions for images, and responsive touch feedback.
-- **Clean Typography**: Uses the **Inter** font family for a premium, legible look.
-
 ## ✨ Features
 
 - **📍 Track Locations**: Automatically detect your current location or select a custom position on the map using **Mapbox**.
