@@ -32,6 +32,29 @@ This application features a custom-designed **Glassmorphism** interface:
 - **Fonts**: [google_fonts](https://pub.dev/packages/google_fonts)
 - **Environment**: [flutter_dotenv](https://pub.dev/packages/flutter_dotenv)
 
+## 🛠️ Screen Shots
+
+<markdown-accessiblity-table data-catalyst=""><table>
+<thead>
+<tr>
+<th>Light</th>
+<th>Dark</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> <img src="https://github.com/user-attachments/assets/ec3b0fae-40db-4311-9254-ac6330e0a24a" width="300" style="max-width: 100%;"></td>
+</tr>
+<tr>
+<td><img src="https://github.com/user-attachments/assets/04185b28-f2b1-4958-992b-9813ab5ae338" width="300" style="max-width: 100%;"></td>
+</tr>
+<tr>
+<td><img src="https://github.com/user-attachments/assets/6776ea21-5250-4ecb-b11c-54180dc464f1" width="300" style="max-width: 100%;"></td>
+</tr> 
+</tbody>
+</table></markdown-accessiblity-table>
+
+
 ## 🚀 Getting Started
 
 ### Prerequisites
