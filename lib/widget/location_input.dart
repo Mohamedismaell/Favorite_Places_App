@@ -10,17 +10,12 @@ import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
 
 class LocationInput extends StatefulWidget {
-  const LocationInput({
-    super.key,
-    required this.onSelectLocation,
-  });
+  const LocationInput({super.key, required this.onSelectLocation});
 
-  final void Function(PlaceLocation location)
-  onSelectLocation;
+  final void Function(PlaceLocation location) onSelectLocation;
 
   @override
-  State<LocationInput> createState() =>
-      _LocationInputState();
+  State<LocationInput> createState() => _LocationInputState();
 }
 
 class _LocationInputState extends State<LocationInput> {
@@ -45,10 +40,7 @@ class _LocationInputState extends State<LocationInput> {
     return true;
   }
 
-  Future<String?> _reverseGeocode(
-    double lat,
-    double lng,
-  ) async {
+  Future<String?> _reverseGeocode(double lat, double lng) async {
     final token = dotenv.env['MAPBOX_ACCESS_TOKEN'];
     if (token == null || token.isEmpty) return null;
 
@@ -88,15 +80,14 @@ class _LocationInputState extends State<LocationInput> {
     if (!mounted) return;
     setState(() => isGettingLocation = false);
 
-    final pickedLocation = await Navigator.of(context)
-        .push<PlaceLocation>(
-          MaterialPageRoute(
-            builder: (ctx) => MapboxScreen(
-              lat: locationData.latitude!,
-              lng: locationData.longitude!,
-            ),
-          ),
-        );
+    final pickedLocation = await Navigator.of(context).push<PlaceLocation>(
+      MaterialPageRoute(
+        builder: (ctx) => MapboxScreen(
+          lat: locationData.latitude!,
+          lng: locationData.longitude!,
+        ),
+      ),
+    );
 
     if (!mounted || pickedLocation == null) return;
 
@@ -159,18 +150,12 @@ class _LocationInputState extends State<LocationInput> {
     );
 
     if (isGettingLocation || _isResolvingAddress) {
-      content = const Center(
-        child: CircularProgressIndicator(),
-      );
+      content = const Center(child: CircularProgressIndicator());
     }
 
     return Column(
       children: [
-        SizedBox(
-          width: double.infinity,
-          height: 250,
-          child: content,
-        ),
+        SizedBox(width: double.infinity, height: 250, child: content),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

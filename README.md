@@ -1,7 +1,89 @@
-<<<<<<< HEAD
-# favorite_places
+# Favorite Places - Flutter App
 
-A new Flutter project.
-=======
-# Favorite_Places_App
->>>>>>> e7813b5b05e8b4bbd2ba7a928a42dfa356d99e09
+A modern, fast, and beautiful mobile application built with Flutter that allows users to capture, store, and manage their favorite locations. The app features a stunning **Glassmorphism UI**, real-time location tracking, and utilizing **Mapbox** for maps.
+
+---
+
+## 🎨 Design & UI
+
+This application features a custom-designed **Glassmorphism** interface:
+
+- **Modern Palette**: Clean Blue (`#4A90E2`) and White (`#FFFFFF`) color scheme.
+- **Glass Effects**: Custom `GlassContainer` components with background blur (`BackdropFilter`), semi-transparent overlays, and frosted borders.
+- **Micro-Interactions**: Smooth animations, hero transitions for images, and responsive touch feedback.
+- **Clean Typography**: Uses the **Inter** font family for a premium, legible look.
+
+## ✨ Features
+
+- **📍 Track Locations**: Automatically detect your current location or select a custom position on the map using **Mapbox**.
+- **📸 Capture Memories**: Take photos of your favorite spots using the device camera.
+- **💾 Local Storage**: Persist your places locally using **SQLite**, ensuring your data is safe even when offline.
+- **🗺️ Interactive Maps**: View your saved places and their exact locations on an interactive map.
+- **📱 Responsive Layout**: Fully responsive design that works seamlessly on both Android and iOS.
+
+## 🛠️ Tech Stack
+
+- **Framework**: [Flutter](https://flutter.dev/) (Dart)
+- **State Management**: [flutter_riverpod](https://pub.dev/packages/flutter_riverpod)
+- **Maps**: [mapbox_maps_flutter](https://pub.dev/packages/mapbox_maps_flutter)
+- **Location**: [location](https://pub.dev/packages/location) & [geolocator](https://pub.dev/packages/geolocator)
+- **Database**: [sqflite](https://pub.dev/packages/sqflite) (SQLite)
+- **Camera**: [image_picker](https://pub.dev/packages/image_picker)
+- **Fonts**: [google_fonts](https://pub.dev/packages/google_fonts)
+- **Environment**: [flutter_dotenv](https://pub.dev/packages/flutter_dotenv)
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Flutter SDK installed (Version 3.8.0 or higher recommended)
+- Android Studio / Xcode for emulators
+- A **Mapbox** Access Token
+
+### Installation
+
+1. **Clone the repository**
+
+   ```bash
+   git clone https://github.com/Mohamedismaell/Favorite_Places_App.git
+   cd Favorite_Places_App
+   ```
+
+2. **Install dependencies**
+
+   ```bash
+   flutter pub get
+   ```
+
+3. **Configure Mapbox**
+
+   - Get your Public Access Token from [Mapbox](https://www.mapbox.com/).
+   - Create a `.env` file in the root directory:
+     ```text
+     MAPBOX_ACCESS_TOKEN=pk.eyJ1I...<your_token_here>
+     ```
+   - _Note: Ensure your Android/iOS configurations for Mapbox (permissions, manifest/plist) are set up._
+
+4. **Run the App**
+   ```bash
+   flutter run
+   ```
+
+## 🏗️ Project Structure
+
+```
+lib/
+├── model/           # Data models (Place, PlaceLocation)
+├── provider/        # Riverpod providers (UserPlaces)
+├── screen/          # App screens (Places List, Add Place, Details, Map)
+├── widget/          # Reusable widgets (GlassContainer, ImageInput, etc.)
+└── main.dart        # Entry point and Theme setup
+```
+
+## 📸 Screenshots
+
+_(Add your screenshots here)_
+
+---
+
+Developed with ❤️ using Flutter.

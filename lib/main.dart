@@ -7,26 +7,34 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mapbox_maps_flutter/mapbox_maps_flutter.dart';
 
 final colorScheme = ColorScheme.fromSeed(
-  brightness: Brightness.dark,
-  seedColor: const Color.fromARGB(255, 102, 6, 247),
-  surface: const Color.fromARGB(255, 56, 49, 66),
+  brightness: Brightness.light,
+  seedColor: const Color(0xFF4A90E2), // Primary Blue
+  surface: const Color(
+    0xFFF5F7FA,
+  ), // Soft Grey-White background for contrast with white glass
+  secondary: const Color(0xFFFFFFFF),
 );
 
-final theme = ThemeData().copyWith(
+final theme = ThemeData(
+  useMaterial3: true,
   scaffoldBackgroundColor: colorScheme.surface,
   colorScheme: colorScheme,
-  textTheme: GoogleFonts.ubuntuCondensedTextTheme()
-      .copyWith(
-        titleSmall: GoogleFonts.ubuntuCondensed(
-          fontWeight: FontWeight.bold,
-        ),
-        titleMedium: GoogleFonts.ubuntuCondensed(
-          fontWeight: FontWeight.bold,
-        ),
-        titleLarge: GoogleFonts.ubuntuCondensed(
-          fontWeight: FontWeight.bold,
-        ),
-      ),
+  textTheme: GoogleFonts.interTextTheme().copyWith(
+    titleSmall: GoogleFonts.inter(fontWeight: FontWeight.bold),
+    titleMedium: GoogleFonts.inter(fontWeight: FontWeight.bold),
+    titleLarge: GoogleFonts.inter(fontWeight: FontWeight.bold),
+  ),
+  appBarTheme: AppBarTheme(
+    backgroundColor: Colors.transparent,
+    elevation: 0,
+    centerTitle: true,
+    titleTextStyle: GoogleFonts.inter(
+      fontSize: 20,
+      fontWeight: FontWeight.w600,
+      color: Colors.black87,
+    ),
+    iconTheme: const IconThemeData(color: Colors.black87),
+  ),
 );
 
 Future<void> main() async {
@@ -37,9 +45,7 @@ Future<void> main() async {
 
 Future<void> setup() async {
   await dotenv.load(fileName: ".env");
-  MapboxOptions.setAccessToken(
-    dotenv.env['MAPBOX_ACCESS_TOKEN']!,
-  );
+  MapboxOptions.setAccessToken(dotenv.env['MAPBOX_ACCESS_TOKEN']!);
 }
 
 class MyApp extends StatelessWidget {
