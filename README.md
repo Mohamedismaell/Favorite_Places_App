@@ -23,25 +23,16 @@ A modern, fast, and beautiful mobile application built with Flutter that allows 
 - **Fonts**: [google_fonts](https://pub.dev/packages/google_fonts)
 - **Environment**: [flutter_dotenv](https://pub.dev/packages/flutter_dotenv)
 
-## 🛠️ Screen Shots
+## 📸 Screenshots
 
 <markdown-accessiblity-table data-catalyst=""><table>
-<thead>
-<tr>
-</tr>
-</thead>
 <tbody>
 <tr>
 <td> <img src="https://github.com/user-attachments/assets/ec3b0fae-40db-4311-9254-ac6330e0a24a" width="300" style="max-width: 100%;"></td>
 <td><img src="https://github.com/user-attachments/assets/04185b28-f2b1-4958-992b-9813ab5ae338" width="300" style="max-width: 100%;"></td>
 <td><img src="https://github.com/user-attachments/assets/6776ea21-5250-4ecb-b11c-54180dc464f1" width="300" style="max-width: 100%;"></td>
 </tr>
-<tr>
-</tr>
-<tr>
-</tr> 
 </tbody>
-</table></markdown-accessiblity-table>
 
 
 ## 🚀 Getting Started
@@ -92,10 +83,5 @@ lib/
 └── main.dart        # Entry point and Theme setup
 ```
 
-## 📸 Screenshots
-
-_(Add your screenshots here)_
-
----
 
 Developed with ❤️ using Flutter.
