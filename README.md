@@ -37,8 +37,6 @@ This application features a custom-designed **Glassmorphism** interface:
 <markdown-accessiblity-table data-catalyst=""><table>
 <thead>
 <tr>
-<th>Light</th>
-<th>Dark</th>
 </tr>
 </thead>
 <tbody>
