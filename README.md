@@ -25,7 +25,7 @@ A modern, fast, and beautiful mobile application built with Flutter that allows 
 
 ## 📸 Screenshots
 
-<markdown-accessiblity-table data-catalyst=""><table>
+<markdown-accessiblity-table data-catalyst="">
 <tbody>
 <tr>
 <td> <img src="https://github.com/user-attachments/assets/ec3b0fae-40db-4311-9254-ac6330e0a24a" width="300" style="max-width: 100%;"></td>
@@ -33,6 +33,9 @@ A modern, fast, and beautiful mobile application built with Flutter that allows 
 <td><img src="https://github.com/user-attachments/assets/6776ea21-5250-4ecb-b11c-54180dc464f1" width="300" style="max-width: 100%;"></td>
 </tr>
 </tbody>
+   
+   <table>
+
 
 
 ## 🚀 Getting Started
